@@ -1,0 +1,50 @@
+html {
+  padding-bottom: 3rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  line-height: 2.5rem;
+}
+
+.link {
+  padding: 0;
+  font-size: 1.25rem;
+  line-height: 2.5rem;
+  color: black;
+  opacity: 50%;
+}
+
+.link:hover {
+  color: black;
+  opacity: 80%;
+}
+
+.link-item {
+  margin-left: 1rem;
+}
+
+.maindiv {
+  border-radius: 10px;
+  padding-bottom: 3rem;
+}
+
+.maindiv-bg {
+  background-color: cornflowerblue;
+  border-radius: 10px 10px 0 0;
+}
+
+.profile {
+  max-width: 216px;
+  max-height: 216px;
+  margin-top: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile img {
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+  object-fit: cover;
+}

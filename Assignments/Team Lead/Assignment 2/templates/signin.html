@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Flask Sign-in Page</title>
+{% endblock %}
+
+{% block pageName %}Sign In{% endblock %}
+{% block body %}
+<div class="container mt-5 w-50">
+    <div class="card-body">
+        <form>
+            <label for="email">Email:</label><br>
+            <input type="email" class="form-control" name="email" required>
+            <br />
+            <label for="password">Password:</label><br>
+            <input type="password" class="form-control" name="password" required>
+            <br />
+
+            <input type="submit" value="Sign In" class="btn btn-primary">
+            <br /><br />
+            <span class="fs-6">
+                Not a Existing User? <a href="/signup" class="btn-link">Sign up for Free!</a>
+            </span>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

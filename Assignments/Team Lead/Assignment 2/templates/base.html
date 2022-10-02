@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar bg-dark p-3 d-flex flex-row justify-content-start">
+        <h1 class="fs-2 text-light me-auto">{% block pageName %}{% endblock %}</h1>
+        <a href="/" class="navbar-brand btn-link bg-dark text-light mx-4 fw-light text-decoration-underline">Home</a>
+        <a href="about"
+            class="navbar-brand btn-link bg-dark text-light mx-4 fw-light text-decoration-underline">About</a>
+        <a href="/signin" class="navbar-brand btn btn-sm btn-light ms-4">Sign in</a>
+        <a href="/signup" class="navbar-brand btn btn-sm btn-outline-secondary text-light me-4">Sign up</a>
+    </nav>
+    {% block body %}{% endblock %}
+</body>
+
+</html>
