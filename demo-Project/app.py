@@ -43,9 +43,9 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route('/signin')
+@app.route('/login')
 def signin():
-    return render_template('signin.html')
+    return render_template('userLogin.html')
 
 @app.route('/register/recepient')
 def recepientRegister():
