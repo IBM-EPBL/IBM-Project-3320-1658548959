@@ -1,3 +1,4 @@
+import hashlib
 import ibm_db
 from flask import Flask, redirect, render_template, request, url_for, session, jsonify
 from sendgrid import SendGridAPIClient
@@ -45,6 +46,9 @@ def login():
     if request.method=='POST':
         username = request.form['username']
         password = request.form['password']
+        password = bytes(password,'utf-8')
+        password = hashlib.sha256(password).hexdigest()
+        
         sql = "select * from user where username=? and password=?"
         stmt = ibm_db.prepare(conn, sql)
         ibm_db.bind_param(stmt, 1, username)
@@ -56,7 +60,8 @@ def login():
             session['USERID'] = res['USERID']
             return render_template('dashboard.html', username=username, role=res['ROLE'])
         else:
-            return render_template('login.html')
+            msg = "Credentials not found! Please Check the Credentials you have entered."
+            return render_template('err.html',err_msg=msg)
     else:
        return render_template('login.html')
 
@@ -67,11 +72,29 @@ def signup():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
+        cnf_password = request.form['confpassword']
         phone_no = request.form['phone_no']
         sex = request.form['sex']
         age = request.form['age']
         address = request.form['address']
         blood_group = request.form['blood_group']
+        if password != cnf_password:
+            msg = "Password and Confirm Password didn't Match. Please check the passwords and try again!"
+            return render_template('err.html',err_msg=msg)
+         
+        password = bytes(password,'utf-8')
+        password = hashlib.sha256(password).hexdigest()
+        # password hashed
+
+        ## case 1: check if user does exists already
+        sql = "SELECT * FROM user WHERE email =?"
+        stmt = ibm_db.prepare(conn, sql)
+        ibm_db.bind_param(stmt,1,email)
+        ibm_db.execute(stmt)
+        acc = ibm_db.fetch_assoc(stmt)
+        if acc:
+            msg = "Account already Exists, Please login or register with a different email."
+            return render_template('err.html',err_msg=msg)
         sql = "insert into user(username, email, password, phone, sex, age, role, address, bloodgroup) values(?,?,?,?,?,?,?,?,?)"
         prep_stmt = ibm_db.prepare(conn, sql)
         ibm_db.bind_param(prep_stmt, 1, username)
@@ -91,8 +114,8 @@ def signup():
         subject='Confirmation Email From Plasma Donor Application.',
         html_content='''
 
-        <h1>You are a Lifesaver, ''' +username+ ''',</h1><br>
-        <p> Thank you so much for registering with us </p><br>
+        <h1>You are a Lifesaver, ''' +username+ '''!</h1><br>
+        <h3> Thank you so much for registering with us </h3><br>
         <p> You are now registered user. Now, you can visit our website and login to your profile using the credentials you have registered with.</p>
         <p> You have made a very important step towards making earth a better place! Thank you.</p>
         '''
@@ -159,17 +182,11 @@ def requestBloodPlasma():
         to_emails=email_list,
         subject='Plasma Needed! Your Help is Needed to Save Lives!',
         html_content='''
-        <div style="font-family: sans-serif;">
+        <div style="font-family: sans-serif;text-align: left;">
             <style>
-                table {
-                    font-family: sans-serif;
-                    text-align: left;
-                }
-
                 td {
                     padding: 10px;
                 }
-
                 th {
                     padding: 10px;
                 }

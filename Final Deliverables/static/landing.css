@@ -1,3 +1,9 @@
+html {
+  height: 100vh;
+  overflow: hidden;
+  background-color: #ffd9d8;
+}
+
 html,
 body,
 div,
@@ -738,7 +744,7 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  padding: 250px 120px 150px 120px;
+  padding: 25vh 12.5vw 25vh 12.5vw;
   position: relative;
   overflow: hidden;
 }
